@@ -1,0 +1,142 @@
+﻿<Window x:Class="TTSApp.Forms.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:forms="clr-namespace:TTSApp.Forms"
+        xmlns:p="clr-namespace:TTSApp.Properties"
+        mc:Ignorable="d"
+        Title="{x:Static p:Resources.MainWindowTitle}" Width="304.942" Height="302.488" SizeToContent="Height" MinWidth="400">
+
+    <Window.DataContext>
+        <forms:MainWindowViewModel></forms:MainWindowViewModel>
+    </Window.DataContext>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" Height="25">
+            <MenuItem Header="Dosya">
+
+                <MenuItem Header="Open" Click="MenuItem_Click" Icon="{iconPacks:Material Kind=FileFind}"/>
+                <MenuItem Header="{x:Static p:Resources.MainWindowMenuFileQuit}" Click="MenuItemQuit_OnClick" Icon="{iconPacks:Material Kind=Close}"/>
+                
+            </MenuItem>
+            <MenuItem Header="_Yardım">
+                <MenuItem Header="Hata Bildir" Click="MenuItemReportAnIssue_OnClick" Icon="{iconPacks:Material Kind=Bug}"/>
+                <MenuItem Header="{x:Static p:Resources.MainWindowMenuHelpAbout}" Click="MenuItemAbout_OnClick" Icon="{iconPacks:Material Kind=Information}"/>
+                <MenuItem Header="{x:Static p:Resources.MainWindowMenuHelpLogs}" Click="MenuItemLogs_OnClick" Icon="{iconPacks:Material Kind=ViewList}"/>
+            </MenuItem>
+        </Menu>
+
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem HorizontalAlignment="Left">
+                <TextBlock x:Name="FooterTextBlock" Text="ConnectionStatus"/>
+            </StatusBarItem>
+
+            <StatusBarItem HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal">
+                    <iconPacks:PackIconMaterial x:Name="UpdateSpinner" VerticalAlignment="Center" Kind="DotsHorizontal" Spin="True" Margin="0,0,10,0" Visibility="Hidden"/>
+                    <TextBlock x:Name="VersionTextBlock" Text="Version"/>
+                </StackPanel>
+
+            </StatusBarItem>
+        </StatusBar>
+
+        <StackPanel Margin="10,10,10,10" DockPanel.Dock="Top">
+
+            <StackPanel>
+                <TextBlock HorizontalAlignment="Stretch" Text="Metin Gir" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                <TextBox x:Name="InputTextBox" Margin="0,10,0,0" Text="" VerticalAlignment="Top" KeyUp="InputTextBox_OnKeyUp"
+                         TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
+            </StackPanel>
+
+            <Grid Margin="0,10,0,0">
+                <StackPanel>
+                    <Expander Header="Playback seçenekleri">
+                        <StackPanel>
+                            <CheckBox x:Name="DeleteFromSoundpadCheckbox"
+                                      Margin="0,10,0,0"
+                                      IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=DeleteFromSoundpadAfterPlay, Mode=TwoWay}" 
+                                      Content="{x:Static p:Resources.MainWindowDeleteFromSoundpadCheckbox}" 
+                                      HorizontalAlignment="Left" 
+                                      VerticalAlignment="Top" 
+                                      Unchecked="SettingsCheckboxChanged" 
+                                      Checked="SettingsCheckboxChanged"
+                                      IsEnabled="{Binding CanDeselectRemoveFile}"
+                                      ToolTipService.ShowOnDisabled="True"
+                                      ToolTip="Storage path must be set in settings"
+                            />
+                            <CheckBox x:Name="PlayRenderLineCheckbox"
+                                      Margin="0,5,0,0"
+                                      IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=PlayRenderLine, Mode=TwoWay}" 
+                                      Content="{x:Static p:Resources.MainWindowPlayRenderLineCheckbox}" 
+                                      HorizontalAlignment="Left" 
+                                      VerticalAlignment="Top" 
+                                      Unchecked="SettingsCheckboxChanged" 
+                                      Checked="SettingsCheckboxChanged"
+                            />
+                            <CheckBox x:Name="PlayCaptureLineCheckbox"
+                                      Margin="0,5,0,0"
+                                      IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=PlayCaptureLine, Mode=TwoWay}" 
+                                      Content="{x:Static p:Resources.MainWindowPlayCaptureLineCheckbox}" 
+                                      HorizontalAlignment="Left" 
+                                      VerticalAlignment="Top" 
+                                      Unchecked="SettingsCheckboxChanged" 
+                                      Checked="SettingsCheckboxChanged"
+                            />
+                            <CheckBox x:Name="EmptyTextAfterPlayCheckbox"
+                                      Margin="0,5,0,0"
+                                      IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=EmptyTextAfterPlay, Mode=TwoWay}" 
+                                      Content="{x:Static p:Resources.MainWindowEmptyTextAfterPlayCheckbox}" 
+                                      HorizontalAlignment="Left" 
+                                      VerticalAlignment="Top" 
+                                      Unchecked="SettingsCheckboxChanged" 
+                                      Checked="SettingsCheckboxChanged"
+                            />
+                        </StackPanel>
+                    </Expander>
+                </StackPanel>
+
+                <Button x:Name="PlaySoundpadButton" 
+                        Content="Soundpad'de Çal" 
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Top" 
+                        Width="150" 
+                        Click="PlaySoundpadButton_Click" 
+                        Height="25"/>
+            </Grid>
+
+            <Separator Margin="0,10,0,5"/>
+
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="0,2,10,0" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="tr-tr" Text="Sağlayıcı"/></TextBlock>
+                </StackPanel>
+                <ComboBox x:Name="ProviderComboBox" ItemsSource="{Binding ProviderList}" SelectedItem="{Binding SelectedProvider}" DisplayMemberPath="Name"  HorizontalAlignment="Stretch" Margin="0,10,0,0" VerticalAlignment="Top" SelectionChanged="ProviderComboBox_OnSelectionChanged">
+                    <ComboBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ComboBoxItem}">
+                            <Setter Property="IsEnabled" Value="{Binding IsAvailable}"/>
+                        </Style>
+                    </ComboBox.ItemContainerStyle>
+                </ComboBox>
+
+                <TextBlock HorizontalAlignment="Stretch" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="tr-tr" Text="Okuyucu"/></TextBlock>
+                <ComboBox x:Name="VoiceComboBox" ItemsSource="{Binding VoiceList}" SelectedItem="{Binding SelectedVoice}" HorizontalAlignment="Stretch" Margin="0,10,0,0" VerticalAlignment="Top" SelectionChanged="VoiceComboBox_SelectionChanged">
+                    <ComboBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ComboBoxItem}">
+                            <Setter Property="IsEnabled" Value="{Binding IsAvailable}"/>
+                        </Style>
+                    </ComboBox.ItemContainerStyle>
+                </ComboBox>
+
+            </StackPanel>
+
+        </StackPanel>
+
+
+
+
+    </DockPanel>
+
+
+</Window>
+
