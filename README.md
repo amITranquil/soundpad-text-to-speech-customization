@@ -42,6 +42,6 @@ or translating any document here to your language. Read our [Code of Conduct](CO
 [MIT](LICENSE) - 2022 Sakin Burak Civelek
 
 ## Special thanks
-*[medokin](https://github.com/medokin/soundpad-text-to-speech) - Custimization of this repository.
+* [medokin](https://github.com/medokin/soundpad-text-to-speech) - Customization of this repository.
 * [Leppsoft](https://leppsoft.com/soundpad/de/) - The Company behind Soundpad
 * [Soundpad Connector](https://github.com/medokin/soundpad-connector) - Library to remote control Soundpad
