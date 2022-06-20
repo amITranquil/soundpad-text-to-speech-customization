@@ -39,8 +39,9 @@ You may contribute in several ways like creating new features, fixing bugs, impr
 or translating any document here to your language. Read our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## License
-[MIT](LICENSE) - Nikodem Jaworski - 2018
+[MIT](LICENSE) - 2022 Sakin Burak Civelek
 
 ## Special thanks
+*[medokin](https://github.com/medokin/soundpad-text-to-speech) - Custimization of this repository.
 * [Leppsoft](https://leppsoft.com/soundpad/de/) - The Company behind Soundpad
 * [Soundpad Connector](https://github.com/medokin/soundpad-connector) - Library to remote control Soundpad
